@@ -10,3 +10,7 @@ render_target::~render_target() {
 	}
 	renderTargets_.clear();
 }
+
+bool render_target::createBackBuffer(const device& device, const swap_chain& swap_chain, const descriptor_heap& heap)noexcept {
+
+}
