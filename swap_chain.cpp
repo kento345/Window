@@ -14,20 +14,19 @@ swap_chain::~swap_chain() {
 
      const auto [w, h] = window.size();
 
-    DXGI_SWAP_CHAIN_DESC1 desc{};
-    desc.BufferCount = 2;                          
-    desc.Width = w;                                
-    desc.Height = h;                               
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;      
-    desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; 
-    desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;    
-    desc.SampleDesc.Count = 1;                          
+     swapChainDesc_ = {};
+     swapChainDesc_.BufferCount = 2;
+     swapChainDesc_.Width = w;
+     swapChainDesc_.Height = h;
+     swapChainDesc_.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+     swapChainDesc_.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+     swapChainDesc_.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+     swapChainDesc_.SampleDesc.Count = 1;                       
 
   
     IDXGISwapChain1* tempSwapChain{};
     {
-        const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(),
-            &desc, nullptr, nullptr, &tempSwapChain);
+        const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(), &swapChainDesc_, nullptr, nullptr, &tempSwapChain);
         if (FAILED(hr)) {
             assert(false && "スワップチェインの作成に失敗");
             return false;
@@ -51,10 +50,17 @@ swap_chain::~swap_chain() {
 }
 
 
-[[nodiscard]] IDXGISwapChain* swap_chain::get() const noexcept {
+[[nodiscard]] IDXGISwapChain3* swap_chain::get() const noexcept {
     if (!swapChain_) {
         assert(false && "スワップチェインが未作成です");
         return nullptr;
     }
     return swapChain_;
+}
+
+const DXGI_SWAP_CHAIN_DESC1& swap_chain::getDesc() const noexcept {
+    if (!swapChain_) {
+        assert(false && "スワップチェインが未作成です");
+    }
+    return swapChainDesc_;
 }
