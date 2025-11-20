@@ -24,70 +24,70 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="window.cpp">
-      <Filter>window</Filter>
+    <ClCompile Include="directx\command_list.cpp">
+      <Filter>directx</Filter>
     </ClCompile>
-    <ClCompile Include="entry.cpp">
+    <ClCompile Include="directx\command_queue.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\descriptor_heap.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\device.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\DXGI.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\fence.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\render_target.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\swap_chain.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="directx\command_allocator.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
+    <ClCompile Include="entry\entry.cpp">
       <Filter>entry</Filter>
     </ClCompile>
-    <ClCompile Include="command_queue.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="device.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="DXGI.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="swap_chain.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="descriptor_heap.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="render_target.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="command_allocator.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="command_list.cpp">
-      <Filter>directx</Filter>
-    </ClCompile>
-    <ClCompile Include="fence.cpp">
-      <Filter>directx</Filter>
+    <ClCompile Include="window\window.cpp">
+      <Filter>window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="window.h">
+    <ClInclude Include="directx\command_list.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\command_queue.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\descriptor_heap.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\device.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\DXGI.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\fence.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\render_target.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\swap_chain.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\command_allocator.h">
+      <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="window\window.h">
       <Filter>window</Filter>
-    </ClInclude>
-    <ClInclude Include="command_queue.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="device.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="DXGI.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="swap_chain.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="descriptor_heap.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="render_target.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="command_allocator.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="command_list.h">
-      <Filter>directx</Filter>
-    </ClInclude>
-    <ClInclude Include="fence.h">
-      <Filter>directx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "device.h"
+#include "../directx/device.h"
 #include <cassert>
 
 #pragma comment(lib, "d3d12.lib")

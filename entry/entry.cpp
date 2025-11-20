@@ -1,19 +1,18 @@
 
-#include "window.h"
+#include "../window/window.h"
 
 
 
 #include <cassert>
-//#include <dxgi.h>
-#include "device.h"
-#include "DXGI.h"
-#include"command_allocator.h"
-#include"command_list.h"
-#include"command_queue.h"
-#include "swap_chain.h"
-#include"descriptor_heap.h"
-#include"render_target.h"
-#include"fence.h"
+#include "../directx/device.h"
+#include "../directx/DXGI.h"
+#include"../directx/command_allocator.h"
+#include"../directx/command_list.h"
+#include"../directx/command_queue.h"
+#include "../directx/swap_chain.h"
+#include"../directx/descriptor_heap.h"
+#include"../directx/render_target.h"
+#include"../directx/fence.h"
 
 
 /*namespace {
@@ -116,7 +115,7 @@ public:
             commandListInstance_.get()->OMSetRenderTargets(1, handles, false, nullptr);
 
           
-            const float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };  
+            const float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
             commandListInstance_.get()->ClearRenderTargetView(handles[0], clearColor, 0, nullptr);
 
            

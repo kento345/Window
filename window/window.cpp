@@ -2,6 +2,14 @@
 
 
 namespace {
+    /*
+    * @brief  ウィンドウプロシージャ
+    * @param  handle
+    * @param  msg
+    * @param  wParam メッセージパラメータ
+    * @param  lParam メッセージパラメータ
+    * @return 処理結果
+    */
   
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         switch (msg) {

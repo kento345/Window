@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DXGI.h"
+#include "../directx/DXGI.h"
 #include <d3d12.h>
 
 class device final

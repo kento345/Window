@@ -1,4 +1,4 @@
-#include "DXGI.h"
+#include "../directx/DXGI.h"
 #include <cassert>
 
 #pragma comment(lib, "dxgi.lib")

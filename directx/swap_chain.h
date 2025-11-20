@@ -1,8 +1,8 @@
 #pragma once
 
-#include "DXGI.h"
-#include "command_queue.h"
-#include "window.h"
+#include "../directx/DXGI.h"
+#include "../directx/command_queue.h"
+#include "../window/window.h"
 
 class swap_chain final
 {

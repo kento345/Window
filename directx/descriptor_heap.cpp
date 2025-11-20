@@ -1,4 +1,4 @@
-#include "descriptor_heap.h"
+#include "../directx/descriptor_heap.h"
 #include<cassert>
 
 descriptor_heap::~descriptor_heap() {

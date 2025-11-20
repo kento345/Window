@@ -1,4 +1,4 @@
-#include "fence.h"
+#include "../directx/fence.h"
 #include <cassert>
 
 fence::~fence() {

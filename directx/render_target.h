@@ -1,8 +1,8 @@
 #pragma once
 
-#include"device.h"
-#include"swap_chain.h"
-#include"descriptor_heap.h"
+#include"../directx/device.h"
+#include"../directx/swap_chain.h"
+#include"../directx/descriptor_heap.h"
 #include<vector>
 
 class render_target final

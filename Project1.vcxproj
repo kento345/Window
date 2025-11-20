@@ -127,29 +127,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="command_allocator.h" />
-    <ClInclude Include="command_list.h" />
-    <ClInclude Include="command_queue.h" />
-    <ClInclude Include="descriptor_heap.h" />
-    <ClInclude Include="device.h" />
-    <ClInclude Include="DXGI.h" />
-    <ClInclude Include="fence.h" />
-    <ClInclude Include="render_target.h" />
-    <ClInclude Include="swap_chain.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="directx\command_allocator.h" />
+    <ClInclude Include="directx\command_list.h" />
+    <ClInclude Include="directx\command_queue.h" />
+    <ClInclude Include="directx\descriptor_heap.h" />
+    <ClInclude Include="directx\device.h" />
+    <ClInclude Include="directx\DXGI.h" />
+    <ClInclude Include="directx\fence.h" />
+    <ClInclude Include="directx\render_target.h" />
+    <ClInclude Include="directx\swap_chain.h" />
+    <ClInclude Include="window\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="command_allocator.cpp" />
-    <ClCompile Include="command_list.cpp" />
-    <ClCompile Include="command_queue.cpp" />
-    <ClCompile Include="descriptor_heap.cpp" />
-    <ClCompile Include="device.cpp" />
-    <ClCompile Include="DXGI.cpp" />
-    <ClCompile Include="entry.cpp" />
-    <ClCompile Include="fence.cpp" />
-    <ClCompile Include="render_target.cpp" />
-    <ClCompile Include="swap_chain.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClCompile Include="directx\command_allocator.cpp" />
+    <ClCompile Include="directx\command_list.cpp" />
+    <ClCompile Include="directx\command_queue.cpp" />
+    <ClCompile Include="directx\descriptor_heap.cpp" />
+    <ClCompile Include="directx\device.cpp" />
+    <ClCompile Include="directx\DXGI.cpp" />
+    <ClCompile Include="directx\fence.cpp" />
+    <ClCompile Include="directx\render_target.cpp" />
+    <ClCompile Include="directx\swap_chain.cpp" />
+    <ClCompile Include="entry\entry.cpp" />
+    <ClCompile Include="window\window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
