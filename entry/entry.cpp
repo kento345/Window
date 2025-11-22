@@ -1,4 +1,4 @@
-
+ï»¿
 #include "../window/window.h"
 
 
@@ -30,60 +30,60 @@ public:
     [[nodiscard]] bool initialize(HINSTANCE instance) noexcept {
        
         if (S_OK != windowInstance_.create(instance, 1280, 720, "MYAPP")) {
-            assert(false && "ƒEƒBƒ“ƒhƒE‚Ì¶¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
        
         if (!dxgiInstance_.setDisplayAdapter()) {
-            assert(false && "DXGI‚ÌƒAƒ_ƒvƒ^İ’è‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "DXGIã®ã‚¢ãƒ€ãƒ—ã‚¿è¨­å®šã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
        
         if (!deviceInstance_.create(dxgiInstance_)) {
-            assert(false && "ƒfƒoƒCƒX‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ãƒ‡ãƒã‚¤ã‚¹ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
        
         if (!commandQueueInstance_.create(deviceInstance_)) {
-            assert(false && "ƒRƒ}ƒ“ƒhƒLƒ…[‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ¥ãƒ¼ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
        
         if (!swapChainInstance_.create(dxgiInstance_, windowInstance_, commandQueueInstance_)) {
-            assert(false && "ƒXƒƒbƒvƒ`ƒFƒCƒ“‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
         if (!descriptorHeapInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, swapChainInstance_.getDesc().BufferCount)) {
-            assert(false && "ƒfƒBƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
         if (!renderTargetInstance_.createBackBuffer(deviceInstance_, swapChainInstance_, descriptorHeapInstance_)) {
-            assert(false && "ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
         if (!commandAllocatorInstance_[0].create(deviceInstance_, D3D12_COMMAND_LIST_TYPE_DIRECT)) {
-            assert(false && "ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
         if (!commandAllocatorInstance_[1].create(deviceInstance_, D3D12_COMMAND_LIST_TYPE_DIRECT)) {
-            assert(false && "ƒRƒ}ƒ“ƒhƒAƒƒP[ƒ^‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚³ãƒãƒ³ãƒ‰ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
         if (!commandListInstance_.creat(deviceInstance_, commandAllocatorInstance_[0])) {
-            assert(false && "ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
         if (!fenceInstance_.create(deviceInstance_)) {
-            assert(false && "ƒtƒFƒ“ƒX‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½");
+            assert(false && "ãƒ•ã‚§ãƒ³ã‚¹ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
             return false;
         }
 
@@ -115,7 +115,7 @@ public:
             commandListInstance_.get()->OMSetRenderTargets(1, handles, false, nullptr);
 
           
-            const float clearColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+            const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
             commandListInstance_.get()->ClearRenderTargetView(handles[0], clearColor, 0, nullptr);
 
            
@@ -177,7 +177,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     Application app;
 
     if (!app.initialize(hInstance)) {
-        assert(false && "ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½");
+        assert(false && "ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ");
     }
 
   

@@ -22,6 +22,9 @@
     <Filter Include="directx">
       <UniqueIdentifier>{2d9c4f42-a9db-421f-a53a-0b57b4f0cfd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="draw_resource">
+      <UniqueIdentifier>{9a4f834d-5025-4d0f-a7c9-d31a6fc02f59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="directx\command_list.cpp">
@@ -57,6 +60,9 @@
     <ClCompile Include="window\window.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="draw_resource\triangle_polygon.cpp">
+      <Filter>draw_resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directx\command_list.h">
@@ -88,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="window\window.h">
       <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="draw_resource\triangle_polygon.h">
+      <Filter>draw_resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
