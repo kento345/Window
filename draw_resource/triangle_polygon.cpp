@@ -98,4 +98,21 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 
 	D3D12_HEAP_PROPERTIES heapProperty{};
 	heapProperty.Type = D3D12_HEAP_TYPE_UPLOAD;
+	heapProperty.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	heapProperty.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+	heapProperty.CreationNodeMask = 1;
+	heapProperty.VisibleNodeMask = 1;
+
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resourceDesc.Alignment = 0;
+	resourceDesc.Width = indexBufferSize;
+	resourceDesc.Height = 1;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
+	resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
 }
