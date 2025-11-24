@@ -27,8 +27,7 @@ swap_chain::~swap_chain() {
   
      IDXGISwapChain1* tempSwapChain{};
      {
-         const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(),
-             &swapChainDesc_, nullptr, nullptr, &tempSwapChain);
+         const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(), &swapChainDesc_, nullptr, nullptr, &tempSwapChain);
          if (FAILED(hr)) {
              assert(false && "スワップチェインの作成に失敗");
              return false;
@@ -49,7 +48,7 @@ swap_chain::~swap_chain() {
 }
 
 
- [[nodiscard]] IDXGISwapChain3* swap_chain::get() const noexcept {
+ IDXGISwapChain3* swap_chain::get() const noexcept {
      if (!swapChain_) {
          assert(false && "スワップチェインが未作成です");
          return nullptr;
@@ -57,7 +56,7 @@ swap_chain::~swap_chain() {
      return swapChain_;
  }
 
- [[nodiscard]] const DXGI_SWAP_CHAIN_DESC1& swap_chain::getDesc() const noexcept {
+ const DXGI_SWAP_CHAIN_DESC1& swap_chain::getDesc() const noexcept {
      if (!swapChain_) {
          assert(false && "スワップチェインが未作成です");
      }

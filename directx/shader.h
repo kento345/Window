@@ -2,7 +2,7 @@
 
 #include"device.h"
 
-class shader
+class shader final
 {
 public:
 
