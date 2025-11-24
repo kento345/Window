@@ -114,5 +114,42 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 	resourceDesc.SampleDesc.Count = 1;
 	resourceDesc.SampleDesc.Quality = 0;
 	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
+	auto res = device.get()->CreateCommittedResource(
+		&heapProperty,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuffer_)
+	);
+	if (FAILED(res)) {
+		assert(false && "インデックスバッファの作成に失敗");
+		return false;
+	}
+
+	uint16_t* data{};
+	res = indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data));
+	if (FAILED(res)) {
+		assert(false && "インデックスバッファのマップに失敗");
+		return false;
+	}
+
+	memcpy_s(data, indexBufferSize, triangleIndices, indexBufferSize);
+	indexBuffer_->Unmap(0, nullptr);
+
+	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = indexBufferSize;
+	indexBufferView_.Format = DXGI_FORMAT_R16_UINT;
+
+	return true;
+}
+
+
+void triangle_polygon::draw(const command_list& commang_list)noexcept {
+	commang_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	commang_list.get()->IASetIndexBuffer(&indexBufferView_);
+	commang_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	commang_list.get()->DrawIndexedInstanced(3, 1, 0, 0,0);
 }

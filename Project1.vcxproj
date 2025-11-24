@@ -134,7 +134,10 @@
     <ClInclude Include="directx\device.h" />
     <ClInclude Include="directx\DXGI.h" />
     <ClInclude Include="directx\fence.h" />
+    <ClInclude Include="directx\pipline_state_object.h" />
     <ClInclude Include="directx\render_target.h" />
+    <ClInclude Include="directx\root_signature.h" />
+    <ClInclude Include="directx\shader.h" />
     <ClInclude Include="directx\swap_chain.h" />
     <ClInclude Include="draw_resource\triangle_polygon.h" />
     <ClInclude Include="window\window.h" />
@@ -147,11 +150,17 @@
     <ClCompile Include="directx\device.cpp" />
     <ClCompile Include="directx\DXGI.cpp" />
     <ClCompile Include="directx\fence.cpp" />
+    <ClCompile Include="directx\pipline_state_object.cpp" />
     <ClCompile Include="directx\render_target.cpp" />
+    <ClCompile Include="directx\root_signature.cpp" />
+    <ClCompile Include="directx\shader.cpp" />
     <ClCompile Include="directx\swap_chain.cpp" />
     <ClCompile Include="draw_resource\triangle_polygon.cpp" />
     <ClCompile Include="entry\entry.cpp" />
     <ClCompile Include="window\window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="asset\Shader.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
