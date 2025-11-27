@@ -1,5 +1,5 @@
 #pragma once
-#include "../directx/device.h"
+#include "device.h"
 class command_allocator final
 {
 public:
@@ -16,7 +16,7 @@ public:
 
 
 private:
-	ID3D12CommandAllocator* commandAllocator_{};  
+	ID3D12CommandAllocator* commandAllocator_{};
 	D3D12_COMMAND_LIST_TYPE type_{};
 };
 

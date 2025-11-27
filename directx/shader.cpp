@@ -2,8 +2,8 @@
 #include<cassert>
 #include<string>
 
-#include<D3Dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
+#include <D3Dcompiler.h>
+#pragma comment(lib, "d3dcompiler.lib")
 
 
 shader::~shader() {
@@ -19,7 +19,7 @@ shader::~shader() {
 
 
 bool shader::create(const device& device)noexcept {
-	const std::string filePath = "asset/Shader.hlsl";
+	const std::string  filePath = "asset/Shader.hlsl";
 	const std::wstring temp = std::wstring(filePath.begin(), filePath.end());
 
 	ID3DBlob* error{};
@@ -29,13 +29,13 @@ bool shader::create(const device& device)noexcept {
 		char* p = static_cast<char*>(error->GetBufferPointer());
 		assert(false && "頂点シェーダのコンパイルに失敗しました");
 	}
-	res = D3DCompileFromFile(temp.data(), nullptr, nullptr, "ps", "ps_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &vertexShader_, &error);
+	res = D3DCompileFromFile(temp.data(), nullptr, nullptr, "ps", "ps_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &pixelShader_, &error);
 	if (FAILED(res)) {
 		char* p = static_cast<char*>(error->GetBufferPointer());
 		assert(false && "ピクセルシェーダのコンパイルに失敗しました");
 	}
 
-	if(error) {
+	if (error) {
 		error->Release();
 	}
 

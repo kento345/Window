@@ -1,4 +1,4 @@
-#include "../directx/render_target.h"
+#include "render_target.h"
 #include<cassert>
 
 render_target::~render_target() {

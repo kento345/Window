@@ -36,8 +36,8 @@ public:
 
 
 private:
-    HWND handle_{};  //ウィンドウハンドル
-    int  witdh_{};   //ウィンドウの横幅
-    int  height_{};  //ウィンドウの縦幅
+    HWND handle_{};  /// ウィンドウハンドル
+    int  witdh_{};   /// ウィンドウ横幅
+    int  height_{};  /// ウィンドウ縦幅
 };
 

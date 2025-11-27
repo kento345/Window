@@ -14,24 +14,25 @@ pipline_state_object::~pipline_state_object()
 
 bool pipline_state_object::create(const device& device, const shader& shader, const root_signature& root_signature)noexcept {
 
-	D3D12_INPUT_ELEMENT_DESC inputElementDesc[] = {
-		{"POSITION",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,0,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0},
-		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0}
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[] = {
+		{"POSITION", 0,    DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{   "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	};
 
 
-	D3D12_RASTERIZER_DESC rasterrizeDesc{};
-	rasterrizeDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	rasterrizeDesc.CullMode = D3D12_CULL_MODE_BACK;
-	rasterrizeDesc.FrontCounterClockwise = false;
-	rasterrizeDesc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
-	rasterrizeDesc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
-	rasterrizeDesc.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
-	rasterrizeDesc.DepthClipEnable = true;
-	rasterrizeDesc.MultisampleEnable = false;
-	rasterrizeDesc.AntialiasedLineEnable = false;
-	rasterrizeDesc.ForcedSampleCount = 0;
-	rasterrizeDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+	D3D12_RASTERIZER_DESC rasterizerDesc{};
+	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	rasterizerDesc.FrontCounterClockwise = false;
+	rasterizerDesc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
+	rasterizerDesc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
+	rasterizerDesc.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
+	rasterizerDesc.DepthClipEnable = true;
+	rasterizerDesc.MultisampleEnable = false;
+	rasterizerDesc.AntialiasedLineEnable = false;
+	rasterizerDesc.ForcedSampleCount = 0;
+	rasterizerDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+
 
 	const D3D12_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc = {
 		FALSE,
@@ -43,7 +44,7 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 		D3D12_BLEND_ZERO,
 		D3D12_BLEND_OP_ADD,
 		D3D12_LOGIC_OP_NOOP,
-		D3D12_COLOR_WRITE_ENABLE_ALL
+		D3D12_COLOR_WRITE_ENABLE_ALL,
 	};
 	D3D12_BLEND_DESC blendDesc{};
 	blendDesc.AlphaToCoverageEnable = false;
@@ -53,11 +54,11 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 	}
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc{};
-	psoDesc.InputLayout = { inputElementDesc,_countof(inputElementDesc) };
+	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 	psoDesc.pRootSignature = root_signature.get();
-	psoDesc.VS = { shader.vertexShader()->GetBufferPointer(),shader.vertexShader()->GetBufferSize() };
-	psoDesc.PS = { shader.pixelShader()->GetBufferPointer(),shader.pixelShader()->GetBufferSize() };
-	psoDesc.RasterizerState = rasterrizeDesc;
+	psoDesc.VS = { shader.vertexShader()->GetBufferPointer(), shader.vertexShader()->GetBufferSize() };
+	psoDesc.PS = { shader.pixelShader()->GetBufferPointer(), shader.pixelShader()->GetBufferSize() };
+	psoDesc.RasterizerState = rasterizerDesc;
 	psoDesc.BlendState = blendDesc;
 	psoDesc.DepthStencilState.DepthEnable = false;
 	psoDesc.DepthStencilState.StencilEnable = false;

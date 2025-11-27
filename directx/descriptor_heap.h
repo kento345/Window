@@ -1,5 +1,5 @@
 #pragma once
-#include"../directx/device.h"
+#include"device.h"
 class descriptor_heap final
 {
 public:

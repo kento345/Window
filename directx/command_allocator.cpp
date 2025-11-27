@@ -1,4 +1,4 @@
-#include "../directx/command_allocator.h"
+#include "command_allocator.h"
 #include <cassert>
 
 command_allocator::~command_allocator() {
@@ -36,7 +36,6 @@ void command_allocator::reset() noexcept {
 ID3D12CommandAllocator* command_allocator::get() const noexcept {
 	if (!commandAllocator_) {
 		assert(false && "コマンドアロケータが未作成です");
-		return nullptr;
 	}
 	return commandAllocator_;
 }

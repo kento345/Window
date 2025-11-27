@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../directx/DXGI.h"
+#include "DXGI.h"
 #include <d3d12.h>
+//#include <d3d12.h>
 
 class device final
 {
@@ -13,10 +14,10 @@ public:
     ~device();
 
     
-    [[nodiscard]] bool create(const DXGI& dxgi) noexcept;
+   bool create(const DXGI& dxgi) noexcept;
 
    
-    [[nodiscard]] ID3D12Device* get() const noexcept;
+   ID3D12Device* get() const noexcept;
 
 
 private:

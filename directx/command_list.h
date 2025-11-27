@@ -1,7 +1,7 @@
 #pragma once
 
-#include"../directx/device.h"
-#include "../directx/command_allocator.h"
+#include"device.h"
+#include "command_allocator.h"
 class command_list final
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../directx/device.h"
+#include "device.h"
 
 class command_queue final
 {

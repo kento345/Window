@@ -1,4 +1,4 @@
-#include "../directx/descriptor_heap.h"
+#include "descriptor_heap.h"
 #include<cassert>
 
 descriptor_heap::~descriptor_heap() {
@@ -8,6 +8,7 @@ descriptor_heap::~descriptor_heap() {
 	}
 }
 bool descriptor_heap::create(const device& device, D3D12_DESCRIPTOR_HEAP_TYPE type, UINT numDescriptors, bool shaderVisible) noexcept {
+	
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
 	heapDesc.Type = type;
 	heapDesc.NumDescriptors = numDescriptors;
@@ -27,7 +28,6 @@ bool descriptor_heap::create(const device& device, D3D12_DESCRIPTOR_HEAP_TYPE ty
 ID3D12DescriptorHeap* descriptor_heap::get() const noexcept {
 	if (!heap_) {
 		assert(false && "ディスクリプタヒープが未生成です");
-		return nullptr;
 	}
 
 	return heap_;

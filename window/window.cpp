@@ -13,7 +13,7 @@ namespace {
   
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         switch (msg) {
-        case WM_DESTROY:  //ウィンドウが閉じられたとき
+        case WM_DESTROY:  // ウィンドウが閉じられたとき
             PostQuitMessage(0);
             return 0;
         }
@@ -49,17 +49,17 @@ HRESULT window::create(HINSTANCE instance, int width, int height, std::string_vi
         return E_FAIL;
     }
 
-    //ウィンドウの表示
+    // ウインドウの表示
     ShowWindow(handle_, SW_SHOW);
 
-    //ウィンドウを更新
+    // ウィンドウを更新
     UpdateWindow(handle_);
 
-   //ウィンドウのサイズ保存
+    // ウィンドウのサイズを保存
     witdh_ = width;
     height_ = height;
 
-   //成功を返す
+    // 成功を返す
     return S_OK;
 }
 
@@ -68,10 +68,10 @@ bool window::messageLoop() const noexcept {
     MSG msg{};
     while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
         if (msg.message == WM_QUIT) {
-            return false;  
+            return false; 
         }
 
-        
+        // メッセージ処理
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -84,6 +84,6 @@ bool window::messageLoop() const noexcept {
     return handle_;
 }
 
-[[nodiscard]] std::pair<int, int> window::size() const noexcept {
+std::pair<int, int> window::size() const noexcept {
     return { witdh_, height_ };
 }

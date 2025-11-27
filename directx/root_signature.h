@@ -2,7 +2,7 @@
 
 #include"device.h"
 
-class root_signature
+class root_signature final
 {
 public:
 

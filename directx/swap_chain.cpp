@@ -24,10 +24,12 @@ swap_chain::~swap_chain() {
      swapChainDesc_.SampleDesc.Count = 1;                          
 
 
+
   
      IDXGISwapChain1* tempSwapChain{};
      {
-         const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(), &swapChainDesc_, nullptr, nullptr, &tempSwapChain);
+         const auto hr = dxgi.factory()->CreateSwapChainForHwnd(commandQueue.get(), window.handle(),
+             &swapChainDesc_, nullptr, nullptr, &tempSwapChain);
          if (FAILED(hr)) {
              assert(false && "スワップチェインの作成に失敗");
              return false;
@@ -35,8 +37,9 @@ swap_chain::~swap_chain() {
      }
 
      {
+
          const auto hr = tempSwapChain->QueryInterface(IID_PPV_ARGS(&swapChain_));
-      
+        
          tempSwapChain->Release();
 
          if (FAILED(hr)) {
@@ -44,6 +47,7 @@ swap_chain::~swap_chain() {
              return false;
          }
      }
+
      return true;
 }
 

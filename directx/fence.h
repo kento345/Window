@@ -1,6 +1,6 @@
 #pragma once
 
-#include"../directx/device.h"
+#include"device.h"
 
 
 class fence final	
@@ -17,6 +17,6 @@ public:
 
 private:
 	ID3D12Fence* fence_{};
-	HANDLE waitGpuEvnt_{};
+	HANDLE waitGpuEvent_{};
 };
 

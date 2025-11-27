@@ -1,4 +1,4 @@
-#include "../directx/fence.h"
+#include "fence.h"
 #include <cassert>
 
 fence::~fence() {
@@ -15,8 +15,8 @@ bool fence::create(const device& device) noexcept {
 		return false;
 	}
 
-	     waitGpuEvnt_ = CreateEvent(nullptr, false, false, "WAIT_GPU");
-	if (!waitGpuEvnt_) {
+	    waitGpuEvent_ = CreateEvent(nullptr, false, false, "WAIT_GPU");
+	if (!waitGpuEvent_) {
 		assert(false && "GPU 同期用のイベントハンドルの作成に失敗しました");
 		return false;
 	}
@@ -31,15 +31,14 @@ void fence::wait(UINT64 fenceValue) const noexcept {
 
 	if (fence_->GetCompletedValue() < fenceValue) {
 		// GPU がフェンス値に到達するまで待つ
-		fence_->SetEventOnCompletion(fenceValue, waitGpuEvnt_);
-		WaitForSingleObject(waitGpuEvnt_, INFINITE);
+		fence_->SetEventOnCompletion(fenceValue, waitGpuEvent_);
+		WaitForSingleObject(waitGpuEvent_, INFINITE);
 	}
 }
 
 ID3D12Fence* fence::get() const noexcept {
 	if (!fence_) {
 		assert(false && "フェンスが未作成です");
-		return nullptr;
 	}
 	return fence_;
 }

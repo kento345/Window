@@ -19,13 +19,13 @@ bool root_signature::create(const device& device)noexcept {
 	rootSignatureDesc.pStaticSamplers = nullptr;
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
+
 	ID3DBlob* signature{};
-	auto res = D3D12SerializeRootSignature(
+	auto      res = D3D12SerializeRootSignature(
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1,
 		&signature,
-		nullptr
-	);
+		nullptr);
 
 	bool success = SUCCEEDED(res);
 	if (!success) {
@@ -37,8 +37,8 @@ bool root_signature::create(const device& device)noexcept {
 			0,
 			signature->GetBufferPointer(),
 			signature->GetBufferSize(),
-			IID_PPV_ARGS(&rootSignature_)
-		);
+			IID_PPV_ARGS(&rootSignature_));
+
 
 		success &= SUCCEEDED(res);
 		if (!success) {

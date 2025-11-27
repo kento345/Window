@@ -1,12 +1,11 @@
 ﻿#include "triangle_polygon.h"
 #include <cassert>
-#include<DirectXMath.h>
+#include <DirectXMath.h>
 
 namespace {
-	struct Vertex
-	{
-		DirectX::XMFLOAT3 position;
-		DirectX::XMFLOAT4 color;
+	struct Vertex {
+		DirectX::XMFLOAT3 position;  
+		DirectX::XMFLOAT4 color;     
 	};
 }
 triangle_polygon::~triangle_polygon() {
@@ -33,9 +32,9 @@ bool triangle_polygon::creat(const device& device)noexcept {
 
 bool triangle_polygon::createVertexBuffer(const device& device)noexcept {
 	Vertex triangleVertices[] = {
-		{{0.0f,0.5f,0.0f},{1.0f,0.0f,0.0f,1.0f}},
-		{{0.5f,-0.5f,0.0f},{0.0f,1.0f,0.0f,1.0f}},
-		{{-0.5f,-0.5f,0.0f},{0.0f,0.0f,1.0f,1.0f}}
+	   {{0.0f, 0.5f, 0.0f}  ,{1.0f, 0.0f, 0.0f, 1.0f}},
+	   {{0.5f, -0.5f, 0.0f} ,{0.0f, 1.0f, 0.0f, 1.0f}},
+	   {{-0.5f, -0.5f, 0.0f},{0.0f, 0.0f, 1.0f, 1.0f}} 
 	};
 
 	const auto vertexBufferSize = sizeof(triangleVertices);
@@ -47,23 +46,23 @@ bool triangle_polygon::createVertexBuffer(const device& device)noexcept {
 	heapProperty.CreationNodeMask = 1;
 	heapProperty.VisibleNodeMask = 1;
 
-	D3D12_RESOURCE_DESC resorceDesc{};
-	resorceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resorceDesc.Alignment = 0;
-	resorceDesc.Width = vertexBufferSize;
-	resorceDesc.Height = 1;
-	resorceDesc.DepthOrArraySize = 1;
-	resorceDesc.MipLevels = 1;
-	resorceDesc.Format = DXGI_FORMAT_UNKNOWN;
-	resorceDesc.SampleDesc.Count = 1;
-	resorceDesc.SampleDesc.Quality = 0;
-	resorceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	resorceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resourceDesc.Alignment = 0;
+	resourceDesc.Width = vertexBufferSize;
+	resourceDesc.Height = 1;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
+	resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
 	auto res = device.get()->CreateCommittedResource(
 		&heapProperty,
 		D3D12_HEAP_FLAG_NONE,
-		&resorceDesc,
+		&resourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertexBuffer_));
@@ -82,8 +81,10 @@ bool triangle_polygon::createVertexBuffer(const device& device)noexcept {
 
 	memcpy_s(data, vertexBufferSize, triangleVertices, vertexBufferSize);
 
-	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
-	vertexBufferView_.SizeInBytes = vertexBufferSize;
+	vertexBuffer_->Unmap(0, nullptr);
+
+	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress(); 
+	vertexBufferView_.SizeInBytes = vertexBufferSize;                      
 	vertexBufferView_.StrideInBytes = sizeof(Vertex);
 
 	return true;
@@ -102,6 +103,7 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 	heapProperty.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 	heapProperty.CreationNodeMask = 1;
 	heapProperty.VisibleNodeMask = 1;
+
 
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -122,8 +124,7 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 		&resourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuffer_)
-	);
+		IID_PPV_ARGS(&indexBuffer_));
 	if (FAILED(res)) {
 		assert(false && "インデックスバッファの作成に失敗");
 		return false;
@@ -137,19 +138,23 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 	}
 
 	memcpy_s(data, indexBufferSize, triangleIndices, indexBufferSize);
+
 	indexBuffer_->Unmap(0, nullptr);
 
 	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
 	indexBufferView_.SizeInBytes = indexBufferSize;
-	indexBufferView_.Format = DXGI_FORMAT_R16_UINT;
+	indexBufferView_.Format = DXGI_FORMAT_R16_UINT; 
 
 	return true;
 }
 
 
-void triangle_polygon::draw(const command_list& commang_list)noexcept {
-	commang_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
-	commang_list.get()->IASetIndexBuffer(&indexBufferView_);
-	commang_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	commang_list.get()->DrawIndexedInstanced(3, 1, 0, 0,0);
+void triangle_polygon::draw(const command_list& command_list)noexcept {
+	command_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+
+	command_list.get()->IASetIndexBuffer(&indexBufferView_);
+
+	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	command_list.get()->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }

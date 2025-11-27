@@ -1,4 +1,4 @@
-#include "../directx/DXGI.h"
+#include "DXGI.h"
 #include <cassert>
 
 #pragma comment(lib, "dxgi.lib")
@@ -93,7 +93,6 @@ DXGI::~DXGI() {
 [[nodiscard]] IDXGIAdapter1* DXGI::displayAdapter() const noexcept {
     if (!dxgiAdapter_) {
         assert(false && "ディスプレイアダプターが未作成です");
-        return nullptr;
     }
 
     return dxgiAdapter_;

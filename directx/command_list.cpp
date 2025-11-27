@@ -1,4 +1,4 @@
-#include "../directx/command_list.h"
+#include "command_list.h"
 #include<cassert>
 
 command_list::~command_list() {
@@ -30,7 +30,6 @@ void command_list::reset(const command_allocator& command_allocator)noexcept {
 ID3D12GraphicsCommandList* command_list::get() const noexcept {
 	if (!commandList_) {
 		assert(false && "コマンドリストが未作成です");
-		return nullptr;
 	}
 	return commandList_;
 }
