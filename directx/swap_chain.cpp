@@ -1,4 +1,4 @@
-#include "../directx/swap_chain.h"
+#include "swap_chain.h"
 #include <cassert>
 
 
@@ -51,7 +51,6 @@ swap_chain::~swap_chain() {
  IDXGISwapChain3* swap_chain::get() const noexcept {
      if (!swapChain_) {
          assert(false && "スワップチェインが未作成です");
-         return nullptr;
      }
      return swapChain_;
  }

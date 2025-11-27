@@ -32,34 +32,32 @@ public:
     
     [[nodiscard]] bool initialize(HINSTANCE instance) noexcept {
        
-        if (S_OK != windowInstance_.create(instance, 1280, 720, "MYAPP")) {
+       
+        if (S_OK != windowInstance_.create(instance, 1280, 720, "MyApp")) {
             assert(false && "ウィンドウの生成に失敗しました");
             return false;
         }
 
-       
         if (!dxgiInstance_.setDisplayAdapter()) {
             assert(false && "DXGIのアダプタ設定に失敗しました");
             return false;
         }
 
-       
         if (!deviceInstance_.create(dxgiInstance_)) {
             assert(false && "デバイスの作成に失敗しました");
             return false;
         }
 
-       
         if (!commandQueueInstance_.create(deviceInstance_)) {
             assert(false && "コマンドキューの作成に失敗しました");
             return false;
         }
 
-       
         if (!swapChainInstance_.create(dxgiInstance_, windowInstance_, commandQueueInstance_)) {
             assert(false && "スワップチェインの作成に失敗しました");
             return false;
         }
+
 
         if (!descriptorHeapInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, swapChainInstance_.getDesc().BufferCount)) {
             assert(false && "ディスクリプタヒープの作成に失敗しました");
@@ -90,10 +88,11 @@ public:
             return false;
         }
 
-        if (trianglePolygonInstance_.creat(deviceInstance_)) {
+      
+        if (!trianglePolygonInstance_.creat(deviceInstance_)) {
             assert(false && "三角形ポリゴンの作成に失敗しました");
             return false;
-       }
+        }
 
         if (!rootSignatureInstance_.create(deviceInstance_)) {
             assert(false && "ルートシグネチャの作成に失敗しました");
@@ -106,46 +105,48 @@ public:
         }
 
         if (!piplineStateObjectInstance_.create(deviceInstance_, shaderInstance_, rootSignatureInstance_)) {
-            assert(false && "パイプラインステータスオブジェクトの作成に失敗しました");
+            assert(false && "パイプラインステートオブジェクトの作成に失敗しました");
             return false;
         }
-     
+
         return true;
     }
 
   
     void loop() noexcept {
         while (windowInstance_.messageLoop()) {
-                const auto backBufferIndex = swapChainInstance_.get()->GetCurrentBackBufferIndex();
+            // 現在のバックバッファインデックスを取得
+            const auto backBufferIndex = swapChainInstance_.get()->GetCurrentBackBufferIndex();
 
-          
+            // 以前のフレームの GPU の処理が完了しているか確認して待機する
             if (frameFenceValue_[backBufferIndex] != 0) {
                 fenceInstance_.wait(frameFenceValue_[backBufferIndex]);
             }
 
-            //コマンドアロケータリセット
+            // コマンドアロケータリセット
             commandAllocatorInstance_[backBufferIndex].reset();
-            //コマンドリストリセット
+            // コマンドリストリセット
             commandListInstance_.reset(commandAllocatorInstance_[backBufferIndex]);
 
-           //リソースバリアでレンダーターゲットをPresentからRenderTargetへ変更
+            // リソースバリアでレンダーターゲットを Present から RenderTarget へ変更
             auto pToRT = resourceBarrier(renderTargetInstance_.get(backBufferIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
             commandListInstance_.get()->ResourceBarrier(1, &pToRT);
 
-           //レンダーターゲットの設定
+            // レンダーターゲットの設定
             D3D12_CPU_DESCRIPTOR_HANDLE handles[] = { renderTargetInstance_.getDescriptorHandle(deviceInstance_, descriptorHeapInstance_, backBufferIndex) };
             commandListInstance_.get()->OMSetRenderTargets(1, handles, false, nullptr);
-            
-           //レンダーターゲットのクリア
-            const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+
+            // レンダーターゲットのクリア
+            const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };  // クリア
             commandListInstance_.get()->ClearRenderTargetView(handles[0], clearColor, 0, nullptr);
 
-           //パイプラインステートの設定
+
+            // パイプラインステートの設定
             commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
-            //ルートシグネチャの設定
+            // ルートシグネチャの設定
             commandListInstance_.get()->SetGraphicsRootSignature(rootSignatureInstance_.get());
 
-            //ビューポートの設定
+            // ビューポートの設定
             const auto [w, h] = windowInstance_.size();
             D3D12_VIEWPORT viewport{};
             viewport.TopLeftX = 0.0f;
@@ -156,7 +157,7 @@ public:
             viewport.MaxDepth = 1.0f;
             commandListInstance_.get()->RSSetViewports(1, &viewport);
 
-            //シザー短形の設定
+            // シザー矩形の設定
             D3D12_RECT scissorRect{};
             scissorRect.left = 0;
             scissorRect.top = 0;
@@ -164,23 +165,25 @@ public:
             scissorRect.bottom = h;
             commandListInstance_.get()->RSSetScissorRects(1, &scissorRect);
 
-            //ポリゴンの描画
+            // ポリゴンの描画
             trianglePolygonInstance_.draw(commandListInstance_);
 
+
+            // リソースバリアでレンダーターゲットを RenderTarget から Present へ変更
             auto rtToP = resourceBarrier(renderTargetInstance_.get(backBufferIndex), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
             commandListInstance_.get()->ResourceBarrier(1, &rtToP);
 
-           
+            // コマンドリストをクローズ
             commandListInstance_.get()->Close();
 
-            
+            // コマンドキューにコマンドリストを送信
             ID3D12CommandList* ppCommandLists[] = { commandListInstance_.get() };
             commandQueueInstance_.get()->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
 
-            
+            // プレゼント
             swapChainInstance_.get()->Present(1, 0);
 
-           
+            // フェンスにフェンス値を設定
             commandQueueInstance_.get()->Signal(fenceInstance_.get(), nextFenceValue_);
             frameFenceValue_[backBufferIndex] = nextFenceValue_;
             nextFenceValue_++;
