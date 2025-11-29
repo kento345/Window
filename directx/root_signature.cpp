@@ -21,7 +21,7 @@ bool root_signature::create(const device& device)noexcept {
 
 
 	ID3DBlob* signature{};
-	auto      res = D3D12SerializeRootSignature(
+	auto res = D3D12SerializeRootSignature(
 		&rootSignatureDesc,
 		D3D_ROOT_SIGNATURE_VERSION_1,
 		&signature,

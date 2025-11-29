@@ -7,7 +7,7 @@
 
 
 shader::~shader() {
-	if (vertexShader) {
+	if (vertexShader_) {
 		vertexShader_->Release();
 		vertexShader_ = nullptr;
 	}
