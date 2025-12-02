@@ -32,13 +32,23 @@ bool triangle_polygon::creat(const device& device)noexcept {
 
 bool triangle_polygon::createVertexBuffer(const device& device)noexcept {
 	Vertex triangleVertices[] = {
+		//三角形
 	   {{0.0f, 0.5f, 0.0f}  ,{1.0f, 0.0f, 0.0f, 1.0f}},
 	   {{0.5f, -0.5f, 0.0f} ,{0.0f, 1.0f, 0.0f, 1.0f}},
 	   {{-0.5f, -0.5f, 0.0f},{0.0f, 0.0f, 1.0f, 1.0f}},
-		//{{0.5f,0.5f,0.0f},{1.0f,0.0,0.0f,1.0f}},
-		//{{0.5f,-0.5f,0.0f},{0.0f, 1.0f, 0.0f, 1.0f}},
-		//{{-0.5f, 0.5f, 0.0f},{0.0f, 0.0f, 1.0f, 1.0f}},
-
+	   //四角形
+	/* { {-0.5f,  0.5f, 0.0f}, {1,0,0,1} },
+	 { { 0.5f,  0.5f, 0.0f}, {0,1,0,1} },
+	 { { 0.5f, -0.5f, 0.0f}, {0,0,1,1} },
+	 { {-0.5f, -0.5f, 0.0f}, {1,1,0,1} }*/
+	 //六角形
+	/* {{0.0f,0.0f,0.0f},{1,1,1,1}},
+	 {{-0.2f,0.6f,0.0f},{1,0,0,1}},
+	 {{0.2f,0.6f,0.0f},{1,1,0,1}},
+	 {{0.4f,0.0f,0.0f},{0,1,0,1}},
+	 {{0.2f,-0.6f,0.0f},{0,1,1,1}},
+	 {{-0.2f,-0.6f,0.0f},{0,0,1,1}},
+	 {{-0.4f,0.0f,0.0f},{1,0,1,1}},*/
 	};
 
 	const auto vertexBufferSize = sizeof(triangleVertices);
@@ -96,8 +106,18 @@ bool triangle_polygon::createVertexBuffer(const device& device)noexcept {
 
 bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 	uint16_t triangleIndices[] = {
+		//三角形
 		0,1,2
-		//0,1,2,3,4
+		//四角形
+		/*0,1,2,　
+		0,2,3*/
+		//六角形
+		/*0,1,2,
+		0,2,3,
+		0,3,4,
+		0,4,5,
+		0,5,6,
+		0,6,1*/
 	};
 
 	const auto indexBufferSize = sizeof(triangleIndices);
@@ -155,11 +175,28 @@ bool triangle_polygon::createIndexBuffer(const device& device)noexcept {
 
 
 void triangle_polygon::draw(const command_list& command_list)noexcept {
+	//三角形
 	command_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 
 	command_list.get()->IASetIndexBuffer(&indexBufferView_);
 
 	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
+
 	command_list.get()->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	//四角形
+	/*command_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+
+	command_list.get()->IASetIndexBuffer(&indexBufferView_);
+
+	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	command_list.get()->DrawIndexedInstanced(6, 1, 0, 0, 0);*/
+	//六角形
+	/*command_list.get()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+
+	command_list.get()->IASetIndexBuffer(&indexBufferView_);
+
+	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	command_list.get()->DrawIndexedInstanced(18, 1, 0, 0, 0);*/
 }
