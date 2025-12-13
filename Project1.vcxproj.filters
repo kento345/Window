@@ -72,6 +72,9 @@
     <ClCompile Include="window\window.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="directx\constant_buffer.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directx\DXGI.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="window\window.h">
       <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\constant_buffer.h">
+      <Filter>directx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
