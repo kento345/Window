@@ -13,8 +13,12 @@
 #include"../directx/root_signature.h"
 #include"../directx/shader.h"
 #include"../directx/pipline_state_object.h"
+#include"../directx/constant_buffer.h"
 
 #include"../draw_resource/triangle_polygon.h"
+
+#include"../object/camera.h"
+#include"../object/object.h"
 
 #include <cassert>
 
@@ -109,12 +113,32 @@ public:
             return false;
         }
 
+        cameraInstance_.initialize();
+
+        if (!constantBufferDescriptorInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 2, true)) {
+            assert(false && "定数バッファ用ディスクリプタヒープの作成に失敗しました");
+            return false;
+        }
+
+        if (!cameraConatantBufferInstance_.create(deviceInstance_, constantBufferDescriptorInstance_, sizeof(camera::ConstBufferData), 0)) {
+            assert(false&&"カメラ用のコンスタントバッファの作成に失敗しました");
+            return false;
+        }
+
+        if (!triangleConstantBufferInstance_.create(deviceInstance_, constantBufferDescriptorInstance_, sizeof(object::ConstBufferData), 1)) {
+            assert(false&&"三角形用コンスタントバッファの作成に失敗しました");
+            return false;
+        }
+
         return true;
     }
 
   
     void loop() noexcept {
         while (windowInstance_.messageLoop()) {
+
+            cameraInstance_.update();
+            triangleObjectInstnce_.update();
 
             const auto backBufferIndex = swapChainInstance_.get()->GetCurrentBackBufferIndex();
 
@@ -163,6 +187,29 @@ public:
             scissorRect.right = w;
             scissorRect.bottom = h;
             commandListInstance_.get()->RSSetScissorRects(1, &scissorRect);
+
+            ID3D12DescriptorHeap* p[] = { constantBufferDescriptorInstance_.get() };
+            commandListInstance_.get()->SetDescriptorHeaps(1, p);
+
+            camera::ConstBufferData cameraData{
+                DirectX::XMMatrixTranspose(cameraInstance_.viewMatrix()),
+                DirectX::XMMatrixTranspose(cameraInstance_.projection()),
+            };
+            UINT8* pCameraData{};
+            cameraConatantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+            memcpy_s(pCameraData, sizeof(cameraData), &cameraData, sizeof(cameraData));
+            cameraConatantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
+            commandListInstance_.get()->SetGraphicsRootDescriptorTable(0, cameraConatantBufferInstance_.getGpuDescriptorHandle());
+
+            object::ConstBufferData triangleData{
+                DirectX::XMMatrixTranspose(triangleObjectInstnce_.world()),
+                triangleObjectInstnce_.color()
+            };
+            UINT8* pTriangleData{};
+            triangleConstantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pTriangleData));
+            memcpy_s(pTriangleData, sizeof(triangleData), &triangleData, sizeof(triangleData));
+            triangleConstantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
+            commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, triangleConstantBufferInstance_.getGpuDescriptorHandle());
 
             trianglePolygonInstance_.draw(commandListInstance_);
 
@@ -221,7 +268,14 @@ private:
     root_signature rootSignatureInstance_{};
     shader shaderInstance_{};
     pipline_state_object piplineStateObjectInstance_{};
+    descriptor_heap constantBufferDescriptorInstance_{};
+
     triangle_polygon trianglePolygonInstance_{};
+    object triangleObjectInstnce_{};
+    constant_buffer triangleConstantBufferInstance_{};
+
+    camera cameraInstance_{};
+    constant_buffer cameraConatantBufferInstance_{};
 };
 
 

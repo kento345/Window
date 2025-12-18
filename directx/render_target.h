@@ -16,7 +16,7 @@ public:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE getDescriptorHandle(const device& deice, const descriptor_heap& heap, UINT index) const noexcept;
 
-	ID3D12Resource* get(uint32_t index) const noexcept;
+	ID3D12Resource* get(UINT index) const noexcept;
 
 private:
 	std::vector<ID3D12Resource*> renderTargets_;

@@ -25,6 +25,9 @@
     <Filter Include="draw_resource">
       <UniqueIdentifier>{9a4f834d-5025-4d0f-a7c9-d31a6fc02f59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{0b0aa002-865e-4d85-a4b7-e17c5d358d35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entry\entry.cpp">
@@ -75,6 +78,12 @@
     <ClCompile Include="directx\constant_buffer.cpp">
       <Filter>directx</Filter>
     </ClCompile>
+    <ClCompile Include="object\camera.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="object\object.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directx\DXGI.h">
@@ -121,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="directx\constant_buffer.h">
       <Filter>directx</Filter>
+    </ClInclude>
+    <ClInclude Include="object\camera.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="object\object.h">
+      <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

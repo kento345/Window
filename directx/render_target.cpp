@@ -49,8 +49,8 @@ D3D12_CPU_DESCRIPTOR_HANDLE render_target::getDescriptorHandle(const device& dev
 	handle.ptr += index * device.get()->GetDescriptorHandleIncrementSize(heapType);
 	return handle;
 }
-
-ID3D12Resource* render_target::get(uint32_t index)const noexcept {
+//uint32_t
+ID3D12Resource* render_target::get(UINT index)const noexcept {
 	if (index >= renderTargets_.size() || !renderTargets_[index]) {
 		assert(false && "不正なレンダーターゲットです");
 		return nullptr;
