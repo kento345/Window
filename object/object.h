@@ -2,7 +2,7 @@
 
 #include<DirectXMath.h>
 
-class object
+class object final
 {
 public:
 	struct ConstBufferData
@@ -14,6 +14,8 @@ public:
 	object() = default;
 
 	~object() = default;
+
+	void initialize(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT4 color)noexcept;
 
 	void update()noexcept;
 

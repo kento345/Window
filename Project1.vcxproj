@@ -141,9 +141,11 @@
     <ClInclude Include="directx\root_signature.h" />
     <ClInclude Include="directx\shader.h" />
     <ClInclude Include="directx\swap_chain.h" />
+    <ClInclude Include="draw_resource\quad_polygon.h" />
     <ClInclude Include="draw_resource\triangle_polygon.h" />
     <ClInclude Include="object\camera.h" />
     <ClInclude Include="object\object.h" />
+    <ClInclude Include="window\input.h" />
     <ClInclude Include="window\window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -161,10 +163,12 @@
     <ClCompile Include="directx\root_signature.cpp" />
     <ClCompile Include="directx\shader.cpp" />
     <ClCompile Include="directx\swap_chain.cpp" />
+    <ClCompile Include="draw_resource\quad_polygon.cpp" />
     <ClCompile Include="draw_resource\triangle_polygon.cpp" />
     <ClCompile Include="entry\entry.cpp" />
     <ClCompile Include="object\camera.cpp" />
     <ClCompile Include="object\object.cpp" />
+    <ClCompile Include="window\input.cpp" />
     <ClCompile Include="window\window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

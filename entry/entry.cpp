@@ -14,8 +14,10 @@
 #include"../directx/shader.h"
 #include"../directx/pipline_state_object.h"
 #include"../directx/constant_buffer.h"
+#include"../directx/depth_buffer.h"
 
 #include"../draw_resource/triangle_polygon.h"
+#include"../draw_resource/quad_polygon.h"
 
 #include"../object/camera.h"
 #include"../object/object.h"
@@ -97,6 +99,14 @@ public:
             assert(false && "三角形ポリゴンの作成に失敗しました");
             return false;
         }
+        triangleObjectInstnce_.initialize({0.2f,0.0f,0.1f }, {1,1,1,1});
+
+        if (!quadPolygonInstance_.creat(deviceInstance_)) {
+            assert(false && "四角形ポリゴンの作成に失敗しました");
+            return false;
+        }
+        quadObjectInstance_.initialize({ -0.2f,0.0f,0.1f }, { 1,1,1,1 });
+      
 
         if (!rootSignatureInstance_.create(deviceInstance_)) {
             assert(false && "ルートシグネチャの作成に失敗しました");
@@ -115,7 +125,7 @@ public:
 
         cameraInstance_.initialize();
 
-        if (!constantBufferDescriptorInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 2, true)) {
+        if (!constantBufferDescriptorInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 3, true)) {
             assert(false && "定数バッファ用ディスクリプタヒープの作成に失敗しました");
             return false;
         }
@@ -130,6 +140,21 @@ public:
             return false;
         }
 
+        if (!quadConstantBufferInstance_.create(deviceInstance_, constantBufferDescriptorInstance_, sizeof(object::ConstBufferData), 2)) {
+            assert(false && "四角形用コンスタントバッファの作成に失敗しました");
+            return false;
+        }
+
+        if (!depthBufferheapInstance_.create(deviceInstance_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1)) {
+            assert(false && "デプスバッファ用のディスクリプタヒープの作成に失敗しました");
+            return false;
+        }
+
+        if (!depthBuuferInstance_.create(deviceInstance_, depthBufferheapInstance_, windowInstance_)) {
+            assert(false && "デプスバッファの作成に失敗しました");
+            return false;
+        }
+
         return true;
     }
 
@@ -138,7 +163,9 @@ public:
         while (windowInstance_.messageLoop()) {
 
             cameraInstance_.update();
+
             triangleObjectInstnce_.update();
+            quadObjectInstance_.update();
 
             const auto backBufferIndex = swapChainInstance_.get()->GetCurrentBackBufferIndex();
 
@@ -201,17 +228,36 @@ public:
             cameraConatantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
             commandListInstance_.get()->SetGraphicsRootDescriptorTable(0, cameraConatantBufferInstance_.getGpuDescriptorHandle());
 
-            object::ConstBufferData triangleData{
-                DirectX::XMMatrixTranspose(triangleObjectInstnce_.world()),
-                triangleObjectInstnce_.color()
-            };
-            UINT8* pTriangleData{};
-            triangleConstantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pTriangleData));
-            memcpy_s(pTriangleData, sizeof(triangleData), &triangleData, sizeof(triangleData));
-            triangleConstantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
-            commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, triangleConstantBufferInstance_.getGpuDescriptorHandle());
+            commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
 
-            trianglePolygonInstance_.draw(commandListInstance_);
+            {
+                object::ConstBufferData quadData{
+                        DirectX::XMMatrixTranspose(quadObjectInstance_.world()),
+                        quadObjectInstance_.color()
+                };
+                UINT8* pQuadData{};
+                quadConstantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pQuadData));
+                memcpy_s(pQuadData, sizeof(quadData), &quadData, sizeof(quadData));
+                quadConstantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
+                commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, quadConstantBufferInstance_.getGpuDescriptorHandle());
+
+                quadPolygonInstance_.draw(commandListInstance_);
+            }
+
+            {
+                object::ConstBufferData triangleData{
+                        DirectX::XMMatrixTranspose(triangleObjectInstnce_.world()),
+                        triangleObjectInstnce_.color()
+                };
+                UINT8* pTriangleData{};
+                triangleConstantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pTriangleData));
+                memcpy_s(pTriangleData, sizeof(triangleData), &triangleData, sizeof(triangleData));
+                triangleConstantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
+                commandListInstance_.get()->SetGraphicsRootDescriptorTable(1, triangleConstantBufferInstance_.getGpuDescriptorHandle());
+
+                trianglePolygonInstance_.draw(commandListInstance_);
+            }
+        
 
             
 
@@ -269,13 +315,20 @@ private:
     shader shaderInstance_{};
     pipline_state_object piplineStateObjectInstance_{};
     descriptor_heap constantBufferDescriptorInstance_{};
-
+    //カメラ
+    camera cameraInstance_{};
+    constant_buffer cameraConatantBufferInstance_{};
+    //△
     triangle_polygon trianglePolygonInstance_{};
     object triangleObjectInstnce_{};
     constant_buffer triangleConstantBufferInstance_{};
+    //□
+    quad_polygon quadPolygonInstance_{};
+    object quadObjectInstance_{};
+    constant_buffer quadConstantBufferInstance_{};
 
-    camera cameraInstance_{};
-    constant_buffer cameraConatantBufferInstance_{};
+    descriptor_heap depthBufferheapInstance_{};
+    depth_buffer depthBuuferInstance_{};
 };
 
 

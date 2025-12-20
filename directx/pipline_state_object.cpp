@@ -19,6 +19,29 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 		{   "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	};
 
+	D3D12_DEPTH_STENCIL_DESC depthStateDesc{};
+	depthStateDesc.DepthEnable = true;
+	depthStateDesc.StencilEnable = false;
+	depthStateDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	depthStateDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+
+	D3D12_RENDER_TARGET_BLEND_DESC renderBlendDesc{};
+	renderBlendDesc.BlendEnable = true;
+
+	renderBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	renderBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	renderBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
+
+	renderBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	renderBlendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;
+	renderBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+
+	renderBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+	D3D12_BLEND_DESC blendDesc{};
+	for (UINT i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT; i++) {
+		blendDesc.RenderTarget[i] = renderBlendDesc;
+	}
 
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
@@ -34,7 +57,7 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 	rasterizerDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
 
 
-	const D3D12_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc = {
+	/*const D3D12_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc = {
 		FALSE,
 		FALSE,
 		D3D12_BLEND_ONE,
@@ -51,7 +74,7 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 	blendDesc.IndependentBlendEnable = false;
 	for (UINT i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT; ++i) {
 		blendDesc.RenderTarget[i] = defaultRenderTargetBlendDesc;
-	}
+	}*/
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc{};
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
