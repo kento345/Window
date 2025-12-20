@@ -131,6 +131,7 @@
     <ClInclude Include="directx\command_list.h" />
     <ClInclude Include="directx\command_queue.h" />
     <ClInclude Include="directx\constant_buffer.h" />
+    <ClInclude Include="directx\depth_buffer.h" />
     <ClInclude Include="directx\descriptor_heap.h" />
     <ClInclude Include="directx\device.h" />
     <ClInclude Include="directx\DXGI.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="directx\command_list.cpp" />
     <ClCompile Include="directx\command_queue.cpp" />
     <ClCompile Include="directx\constant_buffer.cpp" />
+    <ClCompile Include="directx\depth_buffer.cpp" />
     <ClCompile Include="directx\descriptor_heap.cpp" />
     <ClCompile Include="directx\device.cpp" />
     <ClCompile Include="directx\DXGI.cpp" />

@@ -196,7 +196,7 @@ public:
                 DirectX::XMMatrixTranspose(cameraInstance_.projection()),
             };
             UINT8* pCameraData{};
-            cameraConatantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&cameraData));
+            cameraConatantBufferInstance_.constanceBuffer()->Map(0, nullptr, reinterpret_cast<void**>(&pCameraData));
             memcpy_s(pCameraData, sizeof(cameraData), &cameraData, sizeof(cameraData));
             cameraConatantBufferInstance_.constanceBuffer()->Unmap(0, nullptr);
             commandListInstance_.get()->SetGraphicsRootDescriptorTable(0, cameraConatantBufferInstance_.getGpuDescriptorHandle());

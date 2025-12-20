@@ -84,6 +84,9 @@
     <ClCompile Include="object\object.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="directx\depth_buffer.cpp">
+      <Filter>directx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directx\DXGI.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="object\object.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="directx\depth_buffer.h">
+      <Filter>directx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
