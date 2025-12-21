@@ -1,5 +1,6 @@
 ﻿
 #include "../window/window.h"
+#include"../window/input.h"
 
 #include "../directx/device.h"
 #include "../directx/DXGI.h"
@@ -105,7 +106,7 @@ public:
             assert(false && "四角形ポリゴンの作成に失敗しました");
             return false;
         }
-        quadObjectInstance_.initialize({ -0.2f,0.0f,0.1f }, { 1,1,1,1 });
+        quadObjectInstance_.initialize({ -.2f,0.0f,0.1f }, { 1,1,1,1 });
       
 
         if (!rootSignatureInstance_.create(deviceInstance_)) {
@@ -185,14 +186,16 @@ public:
 
           
             D3D12_CPU_DESCRIPTOR_HANDLE handles[] = { renderTargetInstance_.getDescriptorHandle(deviceInstance_, descriptorHeapInstance_, backBufferIndex) };
-            commandListInstance_.get()->OMSetRenderTargets(1, handles, false, nullptr);
+          
+            D3D12_CPU_DESCRIPTOR_HANDLE depthHandle = depthBuuferInstance_.getCPUDescriptorHandle();
+            commandListInstance_.get()->OMSetRenderTargets(1, handles, false, &depthHandle);
 
           
             const float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f }; 
             commandListInstance_.get()->ClearRenderTargetView(handles[0], clearColor, 0, nullptr);
 
-
-            commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
+            commandListInstance_.get()->ClearDepthStencilView(depthHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+            //commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
           
             commandListInstance_.get()->SetGraphicsRootSignature(rootSignatureInstance_.get());
 
@@ -230,8 +233,9 @@ public:
 
             commandListInstance_.get()->SetPipelineState(piplineStateObjectInstance_.get());
 
+         
             {
-                object::ConstBufferData quadData{
+                quad_polygon::ConstBufferData quadData{
                         DirectX::XMMatrixTranspose(quadObjectInstance_.world()),
                         quadObjectInstance_.color()
                 };
@@ -243,9 +247,10 @@ public:
 
                 quadPolygonInstance_.draw(commandListInstance_);
             }
+           
 
             {
-                object::ConstBufferData triangleData{
+                triangle_polygon::ConstBufferData triangleData{
                         DirectX::XMMatrixTranspose(triangleObjectInstnce_.world()),
                         triangleObjectInstnce_.color()
                 };

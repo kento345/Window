@@ -1,6 +1,6 @@
 #include "quad_polygon.h"
 #include <cassert>
-#include <DirectXMath.h>
+
 
 namespace {
 	struct Vertex {
@@ -92,6 +92,8 @@ bool quad_polygon::createVertexBuffer(const device& device)noexcept {
 
 	return true;
 }
+
+
 bool quad_polygon::createIndexBuffer(const device& device)noexcept {
 	uint16_t indices[] = {
 		//éläpå`

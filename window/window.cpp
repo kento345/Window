@@ -1,5 +1,5 @@
 ﻿#include "window.h"
-
+#include"input.h"
 
 namespace {
     /*
@@ -74,6 +74,11 @@ bool window::messageLoop() const noexcept {
         // メッセージ処理
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+
+        static byte keyState[256]{};
+        if (GetKeyboardState(keyState)) {
+            input::instance().updateKeyState(keyState);
+        }
     }
 
     return true;

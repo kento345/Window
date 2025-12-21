@@ -2,9 +2,18 @@
 
 #include"../directx/device.h"
 #include"../directx/command_list.h"
+#include <DirectXMath.h>
 
 class quad_polygon
 {
+public:
+
+	struct ConstBufferData
+	{
+		DirectX::XMMATRIX world_{}; 
+		DirectX::XMFLOAT4 color_{};
+	};
+
 public:
 	quad_polygon() = default;
 	~quad_polygon();

@@ -2,9 +2,16 @@
 
 #include"../directx/device.h"
 #include"../directx/command_list.h"
+#include <DirectXMath.h>
 
 class triangle_polygon final
 {
+public:
+	struct ConstBufferData {
+		DirectX::XMMATRIX world_{};  /// ワールド行列
+		DirectX::XMFLOAT4 color_{};  /// カラー(RGBA)
+	};
+
 public:
 	triangle_polygon() = default;
 
