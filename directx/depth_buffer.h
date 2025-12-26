@@ -17,7 +17,7 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE getCPUDescriptorHandle() const noexcept;
 
 private:
-	ID3D12Resource* dethBuffer_;
+	ID3D12Resource* depthBuffer_;
 	D3D12_CPU_DESCRIPTOR_HANDLE handle_{};
 };
 

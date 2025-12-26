@@ -21,11 +21,11 @@ struct VSOutput
     float4 color : COLOR;
 };
 
-struct PSInput
+/*struct PSInput
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
-};
+};*/
 
 VSOutput vs(VSInput input)
 {
@@ -43,7 +43,7 @@ VSOutput vs(VSInput input)
     return output;
 }
 
-float4 ps(PSInput input) : SV_TARGET
+float4 ps(VSOutput input) : SV_TARGET
 {
     return input.color* color;
 }

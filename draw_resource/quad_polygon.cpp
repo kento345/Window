@@ -97,7 +97,7 @@ bool quad_polygon::createVertexBuffer(const device& device)noexcept {
 bool quad_polygon::createIndexBuffer(const device& device)noexcept {
 	uint16_t indices[] = {
 		//ŽlŠpŒ`
-		0,1,2,3
+		0,1,2,3  
 	};
 
 	const auto indexBufferSize = sizeof(indices);
@@ -161,7 +161,7 @@ void quad_polygon::draw(const command_list& command_list)noexcept {
 
 	command_list.get()->IASetIndexBuffer(&indexBufferView_);
 
-	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	command_list.get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // ŽlŠpŒ`‚ð•`‰æ‚·‚é‚Ì‚Å TRIANGLESTRIP
 
 	command_list.get()->DrawIndexedInstanced(4, 1, 0, 0, 0);
 }

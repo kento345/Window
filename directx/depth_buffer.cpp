@@ -3,9 +3,9 @@
 
 depth_buffer::~depth_buffer()
 {
-	if (dethBuffer_) {
-		dethBuffer_->Release();
-		dethBuffer_ = nullptr;
+	if (depthBuffer_) {
+		depthBuffer_->Release();
+		depthBuffer_ = nullptr;
 	}
 }
 
@@ -40,7 +40,7 @@ bool depth_buffer::create(const device& device, const descriptor_heap& heap,cons
 		&depthDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&clearValue,
-		IID_PPV_ARGS(&dethBuffer_));
+		IID_PPV_ARGS(&depthBuffer_));
 
 	if (FAILED(res)) {
 		assert(false && "デプスバッファの作成に失敗しました");
@@ -60,17 +60,17 @@ bool depth_buffer::create(const device& device, const descriptor_heap& heap,cons
 
 	handle_ = heap.get()->GetCPUDescriptorHandleForHeapStart();
 
-	device.get()->CreateDepthStencilView(dethBuffer_, &dsvDesc, handle_);
+	device.get()->CreateDepthStencilView(depthBuffer_, &dsvDesc, handle_);
 
 	return true;
 }
 
 ID3D12Resource* depth_buffer::dethBuffer()const noexcept {
-	assert(false && "デプスバッファが未作成です");
-	return dethBuffer_;
+	assert( depthBuffer_&& "デプスバッファが未作成です");
+	return depthBuffer_;
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE depth_buffer::getCPUDescriptorHandle()const noexcept {
-	assert(false && "デプスバッファが未作成です");
+	assert(depthBuffer_ && "デプスバッファが未作成です");
 	return handle_;
 }

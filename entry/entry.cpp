@@ -100,7 +100,7 @@ public:
             assert(false && "三角形ポリゴンの作成に失敗しました");
             return false;
         }
-        triangleObjectInstnce_.initialize({0.2f,0.0f,0.1f }, {1,1,1,1});
+        triangleObjectInstnce_.initialize({0.2f,0.0f,-0.1f }, {1,1,1,1});
 
         if (!quadPolygonInstance_.creat(deviceInstance_)) {
             assert(false && "四角形ポリゴンの作成に失敗しました");

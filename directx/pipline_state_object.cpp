@@ -45,7 +45,7 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
 	rasterizerDesc.FrontCounterClockwise = false;
 	rasterizerDesc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
 	rasterizerDesc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
@@ -83,8 +83,8 @@ bool pipline_state_object::create(const device& device, const shader& shader, co
 	psoDesc.PS = { shader.pixelShader()->GetBufferPointer(), shader.pixelShader()->GetBufferSize() };
 	psoDesc.RasterizerState = rasterizerDesc;
 	psoDesc.BlendState = blendDesc;
-	psoDesc.DepthStencilState.DepthEnable = false;
-	psoDesc.DepthStencilState.StencilEnable = false;
+	psoDesc.DepthStencilState = depthStateDesc;
+	psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
